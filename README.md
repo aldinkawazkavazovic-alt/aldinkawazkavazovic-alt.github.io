@@ -1,1 +1,1 @@
-# aldinkawazkavazovic-alt.-gi-thub.io
+# aldinkawazkavazovic-alt.-github.io
