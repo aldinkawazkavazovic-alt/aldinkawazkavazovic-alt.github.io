@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aldin Kavazović — CV</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide icons UMD -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <style>
+    body { margin: 0; }
+    /* Make lucide icons work as React components via shim below */
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // Shim: convert Lucide UMD icons to React components
+    const makeLucideIcon = (name) => {
+      return ({ className = "", style = {}, ...props }) => {
+        const iconData = lucide[name];
+        if (!iconData) return null;
+        const [tag, attrs, ...children] = iconData;
+        const svgProps = {
+          ...attrs,
+          className,
+          style,
+          xmlns: "http://www.w3.org/2000/svg",
+          viewBox: "0 0 24 24",
+          fill: "none",
+          stroke: "currentColor",
+          strokeWidth: "2",
+          strokeLinecap: "round",
+          strokeLinejoin: "round",
+        };
+        const renderChildren = (nodes) =>
+          (nodes || []).map(([t, a], i) => React.createElement(t, { key: i, ...a }));
+        return React.createElement("svg", svgProps, ...renderChildren(children));
+      };
+    };
+
+    const LucideIcons = {
+      Filter: makeLucideIcon("Filter"),
+      MapPin: makeLucideIcon("MapPin"),
+      Mail: makeLucideIcon("Mail"),
+      Phone: makeLucideIcon("Phone"),
+      Linkedin: makeLucideIcon("Linkedin"),
+      Award: makeLucideIcon("Award"),
+      Calendar: makeLucideIcon("Calendar"),
+      ChevronRight: makeLucideIcon("ChevronRight"),
+      Briefcase: makeLucideIcon("Briefcase"),
+      GraduationCap: makeLucideIcon("GraduationCap"),
+      Languages: makeLucideIcon("Languages"),
+      Wrench: makeLucideIcon("Wrench"),
+      X: makeLucideIcon("X"),
+      Sparkles: makeLucideIcon("Sparkles"),
+    };
+  </script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useMemo } = React;
+    const { Filter, MapPin, Mail, Phone, Linkedin, Award, Calendar, ChevronRight, Briefcase, GraduationCap, Languages, Wrench, X, Sparkles } = LucideIcons;
+
+    // ============================================================
+    // DATA
+    // ============================================================
+
+    const ROLES = [
+      {
+        id: "control",
+        title: "Head of Project Controls",
+        short: "Project Controls",
+        tagline: "Cost · Schedule · Risk · Reporting",
+        color: "#d97706",
+        match: 98,
+        summary:
+          "Currently leading the Control Department at Meraas. Built reporting frameworks, cost-control databases, and integrated cost/schedule/risk monitoring across all active sites in Benghazi.",
+        keyPoints: [
+          "Heading Control Department since Feb 2026 — reporting directly to PMO",
+          "Built CSI MasterFormat-aligned subcontractor price database from Odoo ERP data",
+          "Authored Master BoQ template, Payment Order Flow procedures, and WO Cancellation Policy",
+          "Daily use of Primavera P6, Power BI, Odoo, and CostX",
+        ],
+      },
+      {
+        id: "pm",
+        title: "Project Manager",
+        short: "Project Manager",
+        tagline: "Multi-discipline construction delivery",
+        color: "#0ea5e9",
+        match: 96,
+        summary:
+          "9+ years across Libya, Serbia, Qatar, and Turkey delivering infrastructure, building, and civil projects on time and within budget. Comfortable owning the full lifecycle.",
+        keyPoints: [
+          "Project Manager at Meraas (Libya), DS Iskop (Serbia), and HS Iskop (Serbia)",
+          "Delivered biomass plants, district heating, slope stabilisation, sewage systems",
+          "Multi-discipline coordination: civil, MEP, subcontractors, client, authorities",
+          "Full P&L: budgets, procurement, permits, contracts, regulatory compliance",
+        ],
+      },
+      {
+        id: "qaqc",
+        title: "Head of QA/QC",
+        short: "QA/QC Lead",
+        tagline: "ISO 9001 · ITPs · NCR Management",
+        color: "#16a34a",
+        match: 94,
+        summary:
+          "Built Meraas's QA/QC unit from zero — inspection protocols, ITP registers, NCR systems, and ISO 9001-aligned procedures across all subcontractors. Awarded Quality Award at Doha Metro in 2021.",
+        keyPoints: [
+          "Founded and led Meraas QA/QC unit (Sep 2025 – Feb 2026)",
+          "ISO 9001:2015-aligned procedures across construction & subcontractor ops",
+          "Internal & external audits, root-cause analysis, corrective action tracking",
+          "Quality Award winner — RKH Qitarat / Doha Metro, 2021",
+        ],
+      },
+      {
+        id: "qs",
+        title: "Quantity Surveyor / Cost Engineer",
+        short: "QS / Cost Eng.",
+        tagline: "BoQ · Estimating · Cost Control",
+        color: "#9333ea",
+        match: 92,
+        summary:
+          "Hands-on quantity surveying and cost control — building Master BoQ templates, mapping CostX exports to Odoo pricing, and maintaining live subcontractor rate databases for the Benghazi market.",
+        keyPoints: [
+          "Built Meraas Master BoQ on CSI MasterFormat with live Odoo-sourced rates",
+          "CostX quantity take-offs mapped to BoQ with productivity & pricing data",
+          "Interim payment certificates, measurement books, MAR documentation",
+          "Bilingual EN/AR scope breakdowns for tendering and subcontracting",
+        ],
+      },
+      {
+        id: "contracts",
+        title: "Contracts / Procurement Manager",
+        short: "Contracts & Procurement",
+        tagline: "Tenders · Subcontracting · Supply",
+        color: "#dc2626",
+        match: 88,
+        summary:
+          "Strong commercial side: tender preparation, subcontractor agreements, procurement from domestic and international suppliers, and payment-flow governance.",
+        keyPoints: [
+          "Currently preparing tender response for Enma (PM capabilities & org structure)",
+          "Formalised 5-category Payment Order Flow at Meraas (signatures + swim lanes)",
+          "International supplier procurement at UGC DOO Belgrade",
+          "Contract negotiations, permits, and procurement at Al Arabi Face Co. (Qatar)",
+        ],
+      },
+      {
+        id: "civil",
+        title: "Senior Civil / Site Engineer",
+        short: "Civil Engineer",
+        tagline: "Structures · Geotech · Infrastructure",
+        color: "#0891b2",
+        match: 90,
+        summary:
+          "Field-tested civil engineer with experience across slope stabilisation, anchors, shotcrete, micro-piles, viaducts, tunnels, stations, and steel structures.",
+        keyPoints: [
+          "Slope stabilisation: SN/IBO/prestressed anchors, shotcrete RCC panels, micro-piles",
+          "Doha Metro third-party inspections — tunnels, viaducts, stations, depots",
+          "Method Statements, construction logs, dilapidation surveys, snag lists",
+          "BSc Civil Engineering — Kocaeli University, Top GPA in department",
+        ],
+      },
+      {
+        id: "bim",
+        title: "BIM Coordinator",
+        short: "BIM Coordinator",
+        tagline: "Revit · AutoCAD · Clash detection",
+        color: "#7c3aed",
+        match: 78,
+        summary:
+          "Working knowledge of Revit and AutoCAD with practical experience resolving Civil–MEP clashes, preparing shop drawings, and producing as-built documentation.",
+        keyPoints: [
+          "Revit / AutoCAD shop drawings and as-built documentation at HS Iskop",
+          "Civil–MEP clash detection and resolution",
+          "BIM-adjacent coordination across multidisciplinary teams",
+          "Currently scoping BIM team ownership for Enma tender response",
+        ],
+      },
+      {
+        id: "stations",
+        title: "Operations / Station Manager",
+        short: "Operations",
+        tagline: "Metro · QHSE · SCADA",
+        color: "#475569",
+        match: 82,
+        summary:
+          "Two years running daily operations at Doha Metro stations — emergency response, QHSE compliance, SCADA, access control, and coordination with control centres.",
+        keyPoints: [
+          "Station Master at RKH Qitarat / Doha Metro (Mar 2019 – Mar 2021)",
+          "Safety Award 2020 — company-wide recognition",
+          "SCADA, BACS, access control, infrastructure asset inspections",
+          "Coordination with control centres and external transport providers",
+        ],
+      },
+    ];
+
+    const EXPERIENCE = [
+      {
+        id: "meraas-control",
+        role: "Head of Control Department",
+        company: "Art Gradnja DOO – Meraas",
+        location: "Benghazi, Libya",
+        period: "Feb 2026 – Present",
+        relevant: ["control", "pm", "qs", "contracts"],
+        bullets: [
+          "Leading the Control Department: project controls, reporting, document management, and compliance across all active sites.",
+          "Standardising control procedures, workflows, and reporting frameworks for PMO-level decision-making.",
+          "Integrated cost, schedule, and risk monitoring with reporting to senior management and clients.",
+          "Coordinating engineering, site, and commercial teams against contractual obligations.",
+        ],
+      },
+      {
+        id: "meraas-qaqc",
+        role: "Head of QA/QC Unit",
+        company: "Art Gradnja DOO – Meraas",
+        location: "Benghazi, Libya",
+        period: "Sep 2025 – Feb 2026",
+        relevant: ["qaqc", "control", "civil"],
+        bullets: [
+          "Built the QA/QC unit from the ground up — inspection protocols, quality plans, ITP registers, NCR systems.",
+          "Implemented ISO 9001-aligned procedures across construction and subcontractor ops.",
+          "Conducted internal and external audits; trained site teams on standards and documentation.",
+          "Reduced non-conformances through defect prevention, root-cause analysis, and corrective tracking.",
+        ],
+      },
+      {
+        id: "meraas-pm",
+        role: "Project Manager",
+        company: "Art Gradnja DOO – Meraas",
+        location: "Benghazi, Libya",
+        period: "Feb 2025 – Sep 2025",
+        relevant: ["pm", "control", "civil"],
+        bullets: [
+          "Managed construction execution from planning to completion against schedule, budget, and quality targets.",
+          "Coordinated multidisciplinary teams, subcontractors, and client stakeholders.",
+          "Monitored milestones, identified risks, implemented corrective actions; monthly reports to PMO and Area Manager.",
+        ],
+      },
+      {
+        id: "ugc",
+        role: "Civil Engineer",
+        company: "UGC DOO",
+        location: "Belgrade, Serbia",
+        period: "May 2024 – Nov 2024",
+        relevant: ["civil", "qs", "contracts"],
+        bullets: [
+          "Slope stabilisation and highway remediation: SN/IBO/prestressed anchors, shotcrete RCC panels, hydroseeding, micro-piles.",
+          "Method Statements, construction logs, measurement books, IPCs, MAR documentation.",
+          "Procurement from domestic and international suppliers; bid preparation and dynamic schedules.",
+        ],
+      },
+      {
+        id: "ds-iskop",
+        role: "Project Manager",
+        company: "DS Iskop Gradnja DOO",
+        location: "Novi Pazar, Serbia",
+        period: "Oct 2021 – May 2024",
+        relevant: ["pm", "contracts", "civil"],
+        bullets: [
+          "Delivered biomass boiler house, district heating pipeline, landslide rehab, street construction, sewage systems.",
+          "Led teams; managed budgets, procurement, timelines, permits, contracts, regulatory compliance.",
+          "All projects delivered on time and within budget with full documentation trail.",
+        ],
+      },
+      {
+        id: "doha-inspector",
+        role: "Civil Inspector – Doha Metro",
+        company: "RKH Qitarat (RATP Dev / Keolis / Hamad)",
+        location: "Doha, Qatar",
+        period: "Mar 2021 – Oct 2021",
+        relevant: ["qaqc", "civil"],
+        bullets: [
+          "Third-party inspections in Station Area Planning (SAP) and Railway Protection Zone (RPZ).",
+          "Dilapidation surveys, inspection reports, snag lists; managed NCRs and civil defect resolution.",
+          "Authored MTIs, SOPs, and inspection manuals for tunnels, viaducts, stations, depots, steel structures.",
+        ],
+      },
+      {
+        id: "doha-station",
+        role: "Station Master – Doha Metro",
+        company: "RKH Qitarat (RATP Dev / Keolis / Hamad)",
+        location: "Doha, Qatar",
+        period: "Mar 2019 – Mar 2021",
+        relevant: ["stations", "qaqc"],
+        bullets: [
+          "Daily metro station operations, emergency response, QHSE compliance.",
+          "Safety Award 2020 and Quality Award 2021 — company-wide recognition.",
+          "Coordinated with control centres; oversaw access control, SCADA, infrastructure asset inspections.",
+        ],
+      },
+      {
+        id: "hs-iskop",
+        role: "Project Manager",
+        company: "HS Iskop Gradnja DOO",
+        location: "Novi Pazar, Serbia",
+        period: "Jul 2018 – Mar 2019",
+        relevant: ["pm", "bim", "civil"],
+        bullets: [
+          "Pre-planning and resource forecasting; AutoCAD/Revit shop drawings.",
+          "Resolved Civil–MEP clashes and prepared as-built documentation.",
+          "Internal inspections; coordinated with project directors on variation orders and contractor reporting.",
+        ],
+      },
+      {
+        id: "alarabi",
+        role: "Project Manager / Project Engineer",
+        company: "Al Arabi Face Co.",
+        location: "Doha, Qatar",
+        period: "Jul 2017 – Jun 2018",
+        relevant: ["pm", "contracts", "qaqc"],
+        bullets: [
+          "Project scheduling, labour allocation, contract negotiations, permits, procurement from inception to handover.",
+          "Developed and implemented quality control programmes.",
+          "Budget estimations, progress reports, cost tracking.",
+        ],
+      },
+    ];
+
+    const SKILLS = {
+      "Controls & Commercial": ["Primavera P6", "MS Project", "CostX", "Power BI", "Odoo ERP", "CSI MasterFormat", "BoQ / Estimating"],
+      "Engineering & Design": ["AutoCAD", "Revit / BIM", "Method Statements", "Shop Drawings"],
+      "Quality & Operations": ["ISO 9001:2015", "ITP / NCR", "Audits", "QHSE", "SCADA / BACS"],
+      "Management": ["Project Management", "Stakeholder Mgmt", "Procurement", "Contract Admin", "Team Leadership"],
+    };
+
+    const LANGUAGES = [
+      { name: "Serbian / Bosnian", level: "Native", pct: 100 },
+      { name: "English", level: "C1", pct: 90 },
+      { name: "Turkish", level: "C1", pct: 88 },
+      { name: "Italian", level: "A1", pct: 25 },
+    ];
+
+    const AWARDS = [
+      { title: "Safety Award", org: "RKH Qitarat – Doha Metro", year: "2020" },
+      { title: "Quality Award", org: "RKH Qitarat – Doha Metro", year: "2021" },
+      { title: "Turkish Gov. Merit Scholarship", org: "Presidency for Turks Abroad", year: "2012" },
+      { title: "Erasmus+ Scholarship", org: "European Union", year: "2015" },
+      { title: "High Award of Honour (Top GPA)", org: "Kocaeli University", year: "2015" },
+      { title: "Student of the Generation", org: "Gimnazija Novi Pazar", year: "2012" },
+    ];
+
+    // ============================================================
+    // COMPONENT
+    // ============================================================
+
+    function InteractiveCV() {
+      const [activeRole, setActiveRole] = useState(null);
+
+      const filteredExperience = useMemo(() => {
+        if (!activeRole) return EXPERIENCE;
+        return EXPERIENCE.filter((e) => e.relevant.includes(activeRole));
+      }, [activeRole]);
+
+      const selectedRole = ROLES.find((r) => r.id === activeRole);
+
+      return (
+        <div className="min-h-screen bg-stone-50 text-stone-900" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+          <style>{`
+            @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,800&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+            .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+            .font-mono { font-family: 'JetBrains Mono', monospace; }
+            .blueprint-grid {
+              background-image:
+                linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+              background-size: 24px 24px;
+            }
+            .corner-mark::before, .corner-mark::after {
+              content: ''; position: absolute; width: 10px; height: 10px;
+              border-color: currentColor;
+            }
+            .corner-mark::before { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+            .corner-mark::after { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
+            @keyframes fadeUp {
+              from { opacity: 0; transform: translateY(8px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            .fade-up { animation: fadeUp 0.4s ease-out both; }
+          `}</style>
+
+          {/* HEADER */}
+          <header className="blueprint-grid border-b-2 border-stone-900">
+            <div className="max-w-6xl mx-auto px-6 md:px-10 py-10 md:py-14">
+              <div className="flex items-start justify-between gap-6 mb-8">
+                <div className="font-mono text-xs text-stone-500 tracking-widest">
+                  <div>DOC / CV-2026</div>
+                  <div>REV. 04 · APR 2026</div>
+                </div>
+                <div className="font-mono text-xs text-stone-500 tracking-widest text-right">
+                  <div>SHEET 01 / 01</div>
+                  <div>SCALE 1:1</div>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-12 gap-6 items-end">
+                <div className="md:col-span-8">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-amber-700 mb-3">
+                    Civil Engineer · 9+ Years · 4 Countries
+                  </div>
+                  <h1 className="font-display font-light leading-[0.9] tracking-tight text-stone-900" style={{ fontSize: "clamp(2.75rem, 7vw, 5.5rem)" }}>
+                    Aldin
+                    <br />
+                    <span className="italic font-normal">Kavazović</span>
+                  </h1>
+                </div>
+                <div className="md:col-span-4 font-mono text-xs space-y-1.5 md:text-right">
+                  <div className="flex md:justify-end items-center gap-2"><Phone className="w-3 h-3" /> +381 63 466 210</div>
+                  <div className="flex md:justify-end items-center gap-2 break-all"><Mail className="w-3 h-3" /> aldinkawazkavazovic@gmail.com</div>
+                  <div className="flex md:justify-end items-center gap-2"><Linkedin className="w-3 h-3" /> /in/aldinkavazovic</div>
+                  <div className="flex md:justify-end items-center gap-2"><MapPin className="w-3 h-3" /> Benghazi, Libya (on-site)</div>
+                </div>
+              </div>
+
+              <div className="mt-10 max-w-3xl">
+                <p className="font-display text-lg md:text-xl leading-relaxed text-stone-700 italic">
+                  From site engineer to Head of Control — nine years building, inspecting, costing, and governing
+                  complex infrastructure across <span className="text-stone-900 font-normal">Libya, Qatar, Serbia, and Turkey.</span>
+                </p>
+              </div>
+            </div>
+          </header>
+
+          {/* ROLE FILTER */}
+          <section className="border-b border-stone-300 bg-white">
+            <div className="max-w-6xl mx-auto px-6 md:px-10 py-10">
+              <div className="flex items-baseline justify-between mb-6 flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">§ 01</div>
+                  <h2 className="font-display text-2xl md:text-3xl font-normal">Roles I can take on</h2>
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-stone-500 flex items-center gap-2">
+                  <Filter className="w-3 h-3" /> Tap to filter experience below
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+                {ROLES.map((role) => {
+                  const isActive = activeRole === role.id;
+                  return (
+                    <button
+                      key={role.id}
+                      onClick={() => setActiveRole(isActive ? null : role.id)}
+                      className={`relative text-left p-4 border-2 transition-all duration-200 corner-mark group ${
+                        isActive ? "bg-stone-900 text-stone-50 border-stone-900" : "bg-white text-stone-900 border-stone-300 hover:border-stone-900"
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="w-2 h-2 rounded-full transition-transform group-hover:scale-150" style={{ backgroundColor: role.color }} />
+                        <div className="font-mono text-[10px] text-stone-400">{String(ROLES.indexOf(role) + 1).padStart(2, "0")}</div>
+                      </div>
+                      <div className={`font-display text-base leading-tight mb-1 ${isActive ? "text-stone-50" : "text-stone-900"}`}>{role.short}</div>
+                      <div className={`font-mono text-[10px] uppercase tracking-wider ${isActive ? "text-stone-400" : "text-stone-500"}`}>{role.tagline}</div>
+                      <div className="mt-3 flex items-center justify-between">
+                        <div className="font-mono text-[10px] text-stone-400">FIT</div>
+                        <div className="font-mono text-xs font-bold" style={{ color: role.color }}>{role.match}%</div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {selectedRole && (
+                <div key={selectedRole.id} className="mt-6 p-6 md:p-8 border-2 border-stone-900 bg-stone-50 fade-up relative"
+                  style={{ borderLeftWidth: "8px", borderLeftColor: selectedRole.color }}>
+                  <button onClick={() => setActiveRole(null)} className="absolute top-4 right-4 p-1.5 hover:bg-stone-200 transition">
+                    <X className="w-4 h-4" />
+                  </button>
+                  <div className="grid md:grid-cols-12 gap-6">
+                    <div className="md:col-span-5">
+                      <div className="font-mono text-[10px] uppercase tracking-widest mb-2" style={{ color: selectedRole.color }}>Position Profile</div>
+                      <h3 className="font-display text-3xl leading-tight mb-3">{selectedRole.title}</h3>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="font-mono text-xs text-stone-500">MATCH SCORE</div>
+                        <div className="flex-1 h-1 bg-stone-200">
+                          <div className="h-full transition-all duration-700" style={{ width: `${selectedRole.match}%`, backgroundColor: selectedRole.color }} />
+                        </div>
+                        <div className="font-mono text-xs font-bold" style={{ color: selectedRole.color }}>{selectedRole.match}%</div>
+                      </div>
+                      <p className="font-display italic text-stone-700 leading-relaxed">{selectedRole.summary}</p>
+                    </div>
+                    <div className="md:col-span-7 md:border-l md:border-stone-300 md:pl-6">
+                      <div className="font-mono text-[10px] uppercase tracking-widest text-stone-500 mb-3 flex items-center gap-2">
+                        <Sparkles className="w-3 h-3" /> Why me
+                      </div>
+                      <ul className="space-y-2.5">
+                        {selectedRole.keyPoints.map((p, i) => (
+                          <li key={i} className="flex gap-3 text-sm leading-relaxed">
+                            <ChevronRight className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: selectedRole.color }} />
+                            <span>{p}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* EXPERIENCE */}
+          <section className="bg-stone-100 border-b border-stone-300">
+            <div className="max-w-6xl mx-auto px-6 md:px-10 py-12">
+              <div className="flex items-baseline justify-between mb-8 flex-wrap gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">§ 02</div>
+                  <h2 className="font-display text-2xl md:text-3xl font-normal">
+                    Experience{" "}
+                    {selectedRole && <span className="italic" style={{ color: selectedRole.color }}>— relevant to {selectedRole.short}</span>}
+                  </h2>
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-widest text-stone-500">
+                  {filteredExperience.length} of {EXPERIENCE.length} positions shown
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="absolute left-0 md:left-[140px] top-0 bottom-0 w-px bg-stone-300" />
+                <div className="space-y-8">
+                  {filteredExperience.map((exp, idx) => (
+                    <div key={exp.id} className="fade-up relative pl-6 md:pl-0" style={{ animationDelay: `${idx * 60}ms` }}>
+                      <div className="md:grid md:grid-cols-[140px_1fr] md:gap-8">
+                        <div className="font-mono text-xs text-stone-500 mb-2 md:mb-0 md:text-right md:pr-8">
+                          <div className="md:sticky md:top-4">
+                            <div className="text-stone-900 font-semibold">{exp.period.split(" – ")[0]}</div>
+                            <div className="text-stone-400">↓</div>
+                            <div>{exp.period.split(" – ")[1]}</div>
+                          </div>
+                        </div>
+                        <div className="relative">
+                          <div className="absolute -left-[31px] md:-left-[37px] top-1.5 w-3 h-3 bg-stone-50 border-2 border-stone-900 rounded-full" />
+                          <div className="bg-white border border-stone-300 p-5 md:p-6 hover:border-stone-900 transition-colors">
+                            <div className="flex items-start justify-between gap-4 mb-2 flex-wrap">
+                              <div>
+                                <h3 className="font-display text-xl leading-tight">{exp.role}</h3>
+                                <div className="font-mono text-xs text-stone-500 mt-1">{exp.company} · {exp.location}</div>
+                              </div>
+                              <div className="flex gap-1 flex-wrap">
+                                {exp.relevant.map((r) => {
+                                  const rd = ROLES.find((x) => x.id === r);
+                                  return (
+                                    <button key={r} onClick={() => setActiveRole(r === activeRole ? null : r)}
+                                      className="font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 border hover:bg-stone-900 hover:text-stone-50 transition"
+                                      style={{ borderColor: rd.color, color: activeRole === r ? "#fff" : rd.color, backgroundColor: activeRole === r ? rd.color : "transparent" }}>
+                                      {rd.short}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            <ul className="mt-3 space-y-1.5">
+                              {exp.bullets.map((b, i) => (
+                                <li key={i} className="flex gap-2.5 text-sm text-stone-700 leading-relaxed">
+                                  <span className="text-stone-400 mt-1">▸</span>
+                                  <span>{b}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* SKILLS + LANGUAGES */}
+          <section className="bg-white border-b border-stone-300">
+            <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 grid md:grid-cols-12 gap-10">
+              <div className="md:col-span-7">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">§ 03</div>
+                  <h2 className="font-display text-2xl md:text-3xl font-normal">Toolbox</h2>
+                  <Wrench className="w-4 h-4 text-stone-400" />
+                </div>
+                <div className="space-y-5">
+                  {Object.entries(SKILLS).map(([cat, items]) => (
+                    <div key={cat}>
+                      <div className="font-mono text-[10px] uppercase tracking-widest text-amber-700 mb-2">{cat}</div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {items.map((s) => (
+                          <span key={s} className="font-mono text-xs px-2.5 py-1 border border-stone-300 hover:border-stone-900 hover:bg-stone-900 hover:text-stone-50 transition cursor-default">{s}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="md:col-span-5">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">§ 04</div>
+                  <h2 className="font-display text-2xl md:text-3xl font-normal">Languages</h2>
+                  <Languages className="w-4 h-4 text-stone-400" />
+                </div>
+                <div className="space-y-4">
+                  {LANGUAGES.map((l) => (
+                    <div key={l.name}>
+                      <div className="flex justify-between items-baseline mb-1.5">
+                        <div className="font-display text-base">{l.name}</div>
+                        <div className="font-mono text-[10px] uppercase tracking-wider text-stone-500">{l.level}</div>
+                      </div>
+                      <div className="h-px bg-stone-200 relative">
+                        <div className="absolute top-0 left-0 h-px bg-stone-900" style={{ width: `${l.pct}%`, height: "2px", marginTop: "-0.5px" }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* AWARDS + EDUCATION */}
+          <section className="bg-stone-900 text-stone-50">
+            <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 grid md:grid-cols-12 gap-10">
+              <div className="md:col-span-7">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">§ 05</div>
+                  <h2 className="font-display text-2xl md:text-3xl font-normal text-stone-50">Honours</h2>
+                  <Award className="w-4 h-4 text-amber-500" />
+                </div>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {AWARDS.map((a) => (
+                    <div key={a.title} className="border border-stone-700 p-4 hover:border-amber-500 transition">
+                      <div className="font-mono text-[10px] text-amber-500 mb-1">{a.year}</div>
+                      <div className="font-display text-base leading-tight mb-1">{a.title}</div>
+                      <div className="font-mono text-[10px] text-stone-400">{a.org}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="md:col-span-5">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="font-mono text-xs uppercase tracking-[0.25em] text-stone-500">§ 06</div>
+                  <h2 className="font-display text-2xl md:text-3xl font-normal text-stone-50">Education</h2>
+                  <GraduationCap className="w-4 h-4 text-stone-400" />
+                </div>
+                <div className="space-y-5">
+                  <div className="border-l-2 border-amber-500 pl-4">
+                    <div className="font-mono text-[10px] text-stone-400 mb-1">2013 – 2017</div>
+                    <div className="font-display text-lg leading-tight">B.Sc. Civil Engineering</div>
+                    <div className="font-mono text-xs text-stone-400 mt-1">Kocaeli University · Izmit, Turkey</div>
+                    <div className="font-mono text-[10px] text-amber-500 mt-1">Top 3 graduate · Highest GPA</div>
+                  </div>
+                  <div className="border-l-2 border-stone-700 pl-4">
+                    <div className="font-mono text-[10px] text-stone-400 mb-1">Sep 2015 – Feb 2016</div>
+                    <div className="font-display text-lg leading-tight">Erasmus+ Exchange</div>
+                    <div className="font-mono text-xs text-stone-400 mt-1">Università di Pisa · Italy</div>
+                  </div>
+                  <div className="border-l-2 border-stone-700 pl-4">
+                    <div className="font-mono text-[10px] text-stone-400 mb-1">2012 – 2013</div>
+                    <div className="font-display text-lg leading-tight">C1 Turkish Diploma</div>
+                    <div className="font-mono text-xs text-stone-400 mt-1">Ankara University TÖMER · Bursa</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* FOOTER */}
+          <footer className="bg-stone-950 text-stone-400 border-t border-stone-800">
+            <div className="max-w-6xl mx-auto px-6 md:px-10 py-8 flex justify-between items-center flex-wrap gap-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.25em]">© Aldin Kavazović · Drafted Apr 2026</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.25em]">Available worldwide · Open to relocation</div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<InteractiveCV />);
+  </script>
+</body>
+</html>
